@@ -63,6 +63,11 @@ public class PlayerController : MonoBehaviour
     {
         isPlaying = false;
         gameOverCanvas.SetActive(true);
+
+        if (Input.GetMouseButton(0))
+        {
+
+        }
     }
 
     public bool GameStatus()
