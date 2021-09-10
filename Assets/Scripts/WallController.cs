@@ -7,6 +7,8 @@ public class WallController : MonoBehaviour
     float speed = 4;
     float delayUntilDestroyed = 100;
 
+    public GameObject player;
+
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +19,9 @@ public class WallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position -= transform.right * speed * Time.deltaTime;
+        if (player.GetComponent<PlayerController>().GameStatus() == true)
+        {
+            transform.position -= transform.right * speed * Time.deltaTime;
+        }
     }
 }

@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d2f051e8bdf490bbfd61726ee132e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1334743124}
 --- !u!1 &501139318
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,6 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d2f051e8bdf490bbfd61726ee132e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1334743124}
 --- !u!1 &912311312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,6 +1251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topWall: {fileID: 1049255266}
   bottomWall: {fileID: 90058425}
+  player: {fileID: 1334743124}
 --- !u!1001 &7319871030684294555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1256,6 +1259,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1784831831351227039, guid: 3ce5ce964218642af89c440c1809e0fe, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1334743124}
     - target: {fileID: 7319871031447273721, guid: 3ce5ce964218642af89c440c1809e0fe, type: 3}
       propertyPath: m_Name
       value: TopWall
@@ -1313,6 +1320,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6020103738854576697, guid: 7a3e69180e124474f998d8260469faa3, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1334743124}
     - target: {fileID: 7417672644799227136, guid: 7a3e69180e124474f998d8260469faa3, type: 3}
       propertyPath: m_RootOrder
       value: 7

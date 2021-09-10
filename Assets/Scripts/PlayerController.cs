@@ -64,4 +64,9 @@ public class PlayerController : MonoBehaviour
         isPlaying = false;
         gameOverCanvas.SetActive(true);
     }
+
+    public bool GameStatus()
+    {
+        return isPlaying;
+    }
 }
