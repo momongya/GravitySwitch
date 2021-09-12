@@ -9,7 +9,7 @@ public class WallCreator : MonoBehaviour
     public GameObject player;
 
     float timer = 0;
-    float interval = 1.0f;
+    float interval = 0.8f;
 
     // Start is called before the first frame update
     void Start()

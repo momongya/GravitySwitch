@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    float playerSpeed = 10;
-
     float x;
     float y;
     Rigidbody playerRigidbody;
@@ -26,18 +24,41 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPlaying == false)
+
+        //Debug.Log(isPlaying);
+
+        // ゲームがスタートした時
+        if (isPlaying == false && gameStartCanvas.activeSelf == true)
         {
-            if (Input.GetMouseButton(0))
+            //重力を停止させる
+            playerRigidbody.isKinematic = false;
+
+            if (Input.GetMouseButtonDown(0))
             {
-                isPlaying = true;
                 gameStartCanvas.SetActive(false);
+                isPlaying = true;
+            }
+        }
+
+        // リトライする時
+        if (isPlaying == false && gameOverCanvas.activeSelf == true)
+        {
+            //重力を停止させる
+            playerRigidbody.isKinematic = false;
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log(isPlaying);
                 gameOverCanvas.SetActive(false);
+                isPlaying = true;
             }
         }
 
         if (isPlaying == true)
         {
+            //重力を可動させる
+            playerRigidbody.isKinematic = false;
+
             if (Input.GetMouseButtonDown(0))
             {
                 if (clickAction == false)
@@ -54,22 +75,13 @@ public class PlayerController : MonoBehaviour
 
             if (transform.position.x < 0)
             {
-                GameOver();
+                isPlaying = false;
+                gameOverCanvas.SetActive(true);
             }
         }
     }
 
-    void GameOver()
-    {
-        isPlaying = false;
-        gameOverCanvas.SetActive(true);
-
-        if (Input.GetMouseButton(0))
-        {
-
-        }
-    }
-
+    //今プレイ中かどうか
     public bool GameStatus()
     {
         return isPlaying;
