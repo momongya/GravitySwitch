@@ -43,9 +43,11 @@ public class ScoreScript : MonoBehaviour
             }
             highScoreText.text = "HighScore : " + highScore;
 
-            score = 0;
             if (Input.GetMouseButtonDown(0))
             {
+
+
+                score = 0;
                 scoreText.text = score.ToString();
             }
         }

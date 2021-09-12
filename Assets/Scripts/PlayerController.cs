@@ -43,6 +43,11 @@ public class PlayerController : MonoBehaviour
         // ゲームがスタートした時
         if (isPlaying == false && gameStartCanvas.activeSelf == true)
         {
+            gameOverCanvas.SetActive(false);
+            a.enabled = true;
+
+            gameOverParticle.Stop();
+
             if (Input.GetMouseButtonDown(0))
             {
                 gameStartCanvas.SetActive(false);
