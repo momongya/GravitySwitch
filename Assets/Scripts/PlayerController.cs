@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    int playerSpeed = 4;
+
     float x;
     float y;
     Rigidbody playerRigidbody;
 
     public GameObject gameStartCanvas;
     public GameObject gameOverCanvas;
+    public GameObject playerParticle;
 
     bool isPlaying = false;
     bool clickAction = false;
@@ -59,6 +62,9 @@ public class PlayerController : MonoBehaviour
             //重力を可動させる
             playerRigidbody.isKinematic = false;
 
+            //プレイヤーを動かす
+            transform.position += transform.right * playerSpeed * Time.deltaTime;
+
             if (Input.GetMouseButtonDown(0))
             {
                 if (clickAction == false)
@@ -72,18 +78,31 @@ public class PlayerController : MonoBehaviour
                     clickAction = false;
                 }
             }
-
-            if (transform.position.x < 0)
-            {
-                isPlaying = false;
-                gameOverCanvas.SetActive(true);
-            }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        GameOver();
+    }
+
+    //ゲームオーバー時の挙動
+    void GameOver()
+    {
+        isPlaying = false;
+        gameOverCanvas.SetActive(true);
+        playerParticle.SetActive(true);
     }
 
     //今プレイ中かどうか
     public bool GameStatus()
     {
         return isPlaying;
+    }
+
+    //プレイヤーのスピードを返すだけ
+    public int PlayerSpeed()
+    {
+        return playerSpeed;
     }
 }

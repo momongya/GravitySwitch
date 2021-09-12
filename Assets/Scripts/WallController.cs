@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallController : MonoBehaviour
 {
-    float speed = 4;
+
     float delayUntilDestroyed = 100;
 
     public GameObject player;
@@ -19,9 +19,6 @@ public class WallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.GetComponent<PlayerController>().GameStatus() == true)
-        {
-            transform.position -= transform.right * speed * Time.deltaTime;
-        }
+        
     }
 }
