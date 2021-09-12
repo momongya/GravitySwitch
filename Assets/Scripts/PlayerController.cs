@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerController : MonoBehaviour
 {
-    int playerSpeed = 4;
+    int playerSpeed = 12;
 
     float x;
     float y;
@@ -13,10 +14,21 @@ public class PlayerController : MonoBehaviour
 
     public GameObject gameStartCanvas;
     public GameObject gameOverCanvas;
-    public GameObject playerParticle;
+    public GameObject player;
+    public GameObject came;
+
+    public ParticleSystem gameOverParticle;
 
     bool isPlaying = false;
     bool clickAction = false;
+
+    //今ゲームを初めてすぐ(true)かリトライした後(false)かの判別
+    bool nowStatus = true;
+
+    MeshRenderer mr;
+
+    [SerializeField] private Renderer a;//Renderer型の変数aを宣言　好きなゲームオブジェクトをアタッチ
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,14 +40,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        //Debug.Log(isPlaying);
-
         // ゲームがスタートした時
         if (isPlaying == false && gameStartCanvas.activeSelf == true)
         {
-            //重力を停止させる
-            playerRigidbody.isKinematic = false;
-
             if (Input.GetMouseButtonDown(0))
             {
                 gameStartCanvas.SetActive(false);
@@ -46,14 +53,9 @@ public class PlayerController : MonoBehaviour
         // リトライする時
         if (isPlaying == false && gameOverCanvas.activeSelf == true)
         {
-            //重力を停止させる
-            playerRigidbody.isKinematic = false;
-
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log(isPlaying);
-                gameOverCanvas.SetActive(false);
-                isPlaying = true;
+                Retry();
             }
         }
 
@@ -62,19 +64,24 @@ public class PlayerController : MonoBehaviour
             //重力を可動させる
             playerRigidbody.isKinematic = false;
 
+            nowStatus = true;
+
             //プレイヤーを動かす
             transform.position += transform.right * playerSpeed * Time.deltaTime;
+
+            //カメラを動かす
+            came.gameObject.transform.position += transform.right * playerSpeed * Time.deltaTime;
 
             if (Input.GetMouseButtonDown(0))
             {
                 if (clickAction == false)
                 {
-                    Physics.gravity = new Vector3(0, 9.8f, 0);
+                    Physics.gravity = new Vector3(0, 29.4f, 0);
                     clickAction = true;
                 }
                 else if (clickAction == true)
                 {
-                    Physics.gravity = new Vector3(0, -9.8f, 0);
+                    Physics.gravity = new Vector3(0, -29.4f, 0);
                     clickAction = false;
                 }
             }
@@ -83,21 +90,63 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GameOver();
+        if (other.gameObject.tag == "ScoreWall")
+        {
+            GameOver();
+            StartCoroutine("ChangeParticle");
+        }
     }
 
     //ゲームオーバー時の挙動
     void GameOver()
     {
+        //重力を停止させる
+        playerRigidbody.isKinematic = false;
+
         isPlaying = false;
         gameOverCanvas.SetActive(true);
-        playerParticle.SetActive(true);
+
+        nowStatus = false;
+
+        a.enabled = false;
     }
+
+    void Retry()
+    {
+        player.transform.position = new Vector3(0, 0, 0);
+        came.transform.position = new Vector3(0, 0, -20);
+
+        gameOverCanvas.SetActive(false);
+        isPlaying = true;
+        gameOverParticle.Stop();
+
+        a.enabled = true;
+    }
+
+    IEnumerator ChangeParticle()
+    {
+        gameOverParticle.Play();
+
+        //1秒停止
+        yield return new WaitForSeconds(1);
+
+        gameOverParticle.Stop();
+
+        //コルーチン停止
+        yield break;
+    }
+
 
     //今プレイ中かどうか
     public bool GameStatus()
     {
         return isPlaying;
+    }
+
+    //今リトライボタンが押されたかどうか
+    public bool RetryStatus()
+    {
+        return nowStatus;
     }
 
     //プレイヤーのスピードを返すだけ
